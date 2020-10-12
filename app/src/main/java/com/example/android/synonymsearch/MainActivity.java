@@ -45,29 +45,31 @@ public class MainActivity extends AppCompatActivity
         new wordQueryTask().execute(wordSearchUrl);
     }
 
-    public class wordQueryTask extends AsyncTask<URL, Void, String >
+    public class wordQueryTask extends AsyncTask<URL, Void, String[] >
     {
         @Override
-        protected String doInBackground(URL... urls)
+        protected String[] doInBackground(URL... urls)
         {
             URL searchUrl = urls[0];
-            synonymWord[] synonymResults = null;
-            //String[] resultsToPrint=null;
-            //ArrayList<String> resultsTOArrayList = new ArrayList<String>();
-            String resultsToPrint = "Synonyms:";
+            synonymWord[] synonymResults;
+
+
 
             try
             {
                 synonymResults = fetchSynonym.getResponseFromUrl(searchUrl);
+                String[] resultsToPrint = new String[synonymResults.length+1];
+                resultsToPrint[0] = "\n\nSynonyms:";
 
-                //resultsTOArrayList.add("Synonyms  ");
+                int i=1;
                 for (synonymWord sr : synonymResults)
                 {
-                    //resultsTOArrayList.add("\n"+sr.getWord() + "  ");
-                    resultsToPrint.concat( sr.getWord());
+                    resultsToPrint[i] = sr.getWord();
+                    i++;
                 }
+                return resultsToPrint;
             }
-            catch (IOException e) { e.printStackTrace(); }
+            catch (IOException e) { e.printStackTrace(); return null; }
 
             /*if(synonymResults!=null)
             {
@@ -83,16 +85,19 @@ public class MainActivity extends AppCompatActivity
                 return resultsToPrint;
             }*/
 
-            return resultsToPrint;
+
         }
 
         @Override
-        protected void onPostExecute(String s)
+        protected void onPostExecute(String[] results)
         {
-             /*   if(s!=null && !s.equals("")) {
-                    SearchResultsTV.setText(s);
-                } */
-            SearchResultsTV.setText(s);
+            if(results!=null)
+            {
+                for(String s : results)
+                {
+                    SearchResultsTV.append((s) + "\n\n");
+                }
+            }
         }
 
     }
