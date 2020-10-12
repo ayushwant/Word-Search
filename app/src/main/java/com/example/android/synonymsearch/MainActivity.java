@@ -45,26 +45,26 @@ public class MainActivity extends AppCompatActivity
         new wordQueryTask().execute(wordSearchUrl);
     }
 
-    public class wordQueryTask extends AsyncTask<URL, Void, ArrayList<String> >
+    public class wordQueryTask extends AsyncTask<URL, Void, String >
     {
         @Override
-        protected ArrayList<String> doInBackground(URL... urls)
+        protected String doInBackground(URL... urls)
         {
             URL searchUrl = urls[0];
             synonymWord[] synonymResults = null;
             //String[] resultsToPrint=null;
-            ArrayList<String> resultsToPrint = new ArrayList<String>();
+            //ArrayList<String> resultsTOArrayList = new ArrayList<String>();
+            String resultsToPrint = "Synonyms:";
 
             try
             {
                 synonymResults = fetchSynonym.getResponseFromUrl(searchUrl);
 
-                resultsToPrint.add("Synonyms  ");
-                int i = 1;
+                //resultsTOArrayList.add("Synonyms  ");
                 for (synonymWord sr : synonymResults)
                 {
-                    resultsToPrint.add(sr.getWord() + "  ");
-                    i++;
+                    //resultsTOArrayList.add("\n"+sr.getWord() + "  ");
+                    resultsToPrint.concat( sr.getWord());
                 }
             }
             catch (IOException e) { e.printStackTrace(); }
@@ -82,19 +82,17 @@ public class MainActivity extends AppCompatActivity
 
                 return resultsToPrint;
             }*/
+
             return resultsToPrint;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> results)
+        protected void onPostExecute(String s)
         {
-            for(String s : results)
-            {
-                if(s!=null && !s.equals(""))
-                {
+             /*   if(s!=null && !s.equals("")) {
                     SearchResultsTV.setText(s);
-                }
-            }
+                } */
+            SearchResultsTV.setText(s);
         }
 
     }
