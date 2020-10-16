@@ -9,7 +9,5 @@ public class synonymWord
         return word;
     }
 
-    public int getScore() {
-        return score;
-    }
+    public int getScore() { return score; }
 }

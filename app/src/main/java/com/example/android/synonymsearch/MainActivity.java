@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.android.synonymsearch.rhyme.fetchRhyme;
 import com.example.android.synonymsearch.synonym.fetchSynonym;
 import com.example.android.synonymsearch.synonym.synonymWord;
 
@@ -39,10 +40,15 @@ public class MainActivity extends AppCompatActivity
     private void makeWordSearchQuery()
     {
         String wordQuery = SearchBoxET.getText().toString();
-        URL wordSearchUrl = fetchSynonym.buildUrl(wordQuery);
-        UrlDisplayTV.setText(wordSearchUrl.toString());
 
-        new wordQueryTask().execute(wordSearchUrl);
+        URL synonymSearchUrl = fetchSynonym.buildUrl(wordQuery);
+       // UrlDisplayTV.setText(synonymSearchUrl.toString());
+        new wordQueryTask().execute(synonymSearchUrl);
+
+        URL rhymeSearchUrl = fetchRhyme.buildUrl(wordQuery);
+        UrlDisplayTV.setText(rhymeSearchUrl.toString());
+        new wordQueryTask().execute(rhymeSearchUrl);
+
     }
 
     public class wordQueryTask extends AsyncTask<URL, Void, String[] >
